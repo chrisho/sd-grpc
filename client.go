@@ -1,9 +1,10 @@
 package sdgrpc
 
 import (
+	"os"
 	"strings"
 
-	"github.com/chrisho/sd-helper"
+	"github.com/chrisho/sd-helper/stringx"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -20,19 +21,19 @@ func NewClientLocal(serviceName string) (*grpc.ClientConn, error) {
 
 	debug() // 根据配置设置debug
 
-	sdhelper.SetEnv("ClientConn", "1") // 配置本地ip，测试用
+	os.Setenv("ClientConn", "1") // 配置本地ip，测试用
 	return NewClient(serviceName)
 }
 
 func NewClient(serviceName string) (*grpc.ClientConn, error) {
-	serviceName = sdhelper.ConvertUnderlineToWhippletree(serviceName)
-	host := serviceName + sdhelper.GetEnv("SSLSuffixServerName")
+	serviceName = stringx.ConvertUnderlineToWhippletree(serviceName)
+	host := serviceName + os.Getenv("SSLSuffixServerName")
 
 	var address string
-	if sdhelper.GetEnv("ClientConn") == "1" {
+	if os.Getenv("ClientConn") == "1" {
 		address = "127.0.0.1"
 	} else {
-		address = serviceName + sdhelper.GetEnv("ClusterSuffixDomain")
+		address = serviceName + os.Getenv("ClusterSuffixDomain")
 	}
 
 	c := &client{}
@@ -62,12 +63,12 @@ func (c *client) Close() {
 
 // 配置CA证书
 func (c *client) configCACertFile(host string) error {
-	if strings.ToLower(sdhelper.GetEnv("SSL")) != "true" {
+	if strings.ToLower(os.Getenv("SSL")) != "true" {
 		c.opts = append(c.opts, grpc.WithInsecure())
 		return nil
 	}
 
-	certFile := sdhelper.GetEnv("SSLCACertFile")
+	certFile := os.Getenv("SSLCACertFile")
 	creds, err := credentials.NewClientTLSFromFile(path+"/"+certFile, host)
 	if err != nil {
 		return err

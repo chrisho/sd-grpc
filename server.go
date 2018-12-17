@@ -2,12 +2,12 @@ package sdgrpc
 
 import (
 	"github.com/chrisho/sd-grpc/interceptors"
-	"github.com/chrisho/sd-helper"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/grpclog"
 	"net"
+	"os"
 	"strings"
 )
 
@@ -58,12 +58,12 @@ func (s *sdgrpc) Run() error {
 
 // 配置证书
 func (s *sdgrpc) configCredentials() error {
-	if strings.ToLower(sdhelper.GetEnv("SSL")) != "true" {
+	if strings.ToLower(os.Getenv("SSL")) != "true" {
 		return nil
 	}
 
-	certFile := sdhelper.GetEnv("SSLCertFile")
-	keyFile := sdhelper.GetEnv("SSLKeyFile")
+	certFile := os.Getenv("SSLCertFile")
+	keyFile := os.Getenv("SSLKeyFile")
 	transportCrd, err := credentials.NewServerTLSFromFile(path+"/"+certFile, path+"/"+keyFile)
 	if err != nil {
 		return err
