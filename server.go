@@ -1,17 +1,14 @@
 package sdgrpc
 
 import (
-	"strings"
-	"net"
-
 	"github.com/chrisho/sd-grpc/interceptors"
 	"github.com/chrisho/sd-helper"
-
 	"golang.org/x/net/context"
-
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/grpclog"
+	"net"
+	"strings"
 )
 
 type sdgrpc struct {
