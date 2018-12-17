@@ -1,12 +1,11 @@
 package sdgrpc
 
 import (
-	"os"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc/grpclog"
-	"strings"
-	"github.com/chrisho/sd-helper"
 	"io/ioutil"
+	"os"
+	"strings"
 )
 
 const envFile = "/config/conf.env"
@@ -31,9 +30,9 @@ func init() {
 }
 
 func debug() {
-	if strings.ToLower(sdhelper.GetEnv("Debug")) == "true" {
-		if sdhelper.GetEnv("DebugServerListenPort") != "" {
-			debugPort = sdhelper.GetEnv("DebugServerListenPort")
+	if strings.ToLower(os.Getenv("Debug")) == "true" {
+		if os.Getenv("DebugServerListenPort") != "" {
+			debugPort = os.Getenv("DebugServerListenPort")
 		}
 	}
 	if debugPort != "" {
