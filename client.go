@@ -8,7 +8,6 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-	"google.golang.org/grpc/grpclog"
 )
 
 type client struct {
@@ -48,8 +47,6 @@ func NewClient(serviceName string) (*grpc.ClientConn, error) {
 		return nil, err
 	}
 
-	grpclog.Infoln("Certificate Host: ", host)
-	grpclog.Infoln("Connect Server: ", address+port)
 	c.conn, err = grpc.Dial(address+port, c.opts...)
 	if err != nil {
 		return nil, err
