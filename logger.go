@@ -123,15 +123,21 @@ func (g *loggerT) pos(args ...interface{}) ([]interface{}) {
 }
 
 func (g *loggerT) Info(args ...interface{}) {
-	// g.m[infoLog].Print(g.pos(args)...)
+	if g.v == 1 {
+		g.m[infoLog].Print(g.pos(args)...)
+	}
 }
 
 func (g *loggerT) Infoln(args ...interface{}) {
-	// g.m[infoLog].Println(g.pos(args)...)
+	if g.v == 1 {
+		g.m[infoLog].Println(g.pos(args)...)
+	}
 }
 
 func (g *loggerT) Infof(format string, args ...interface{}) {
-	// g.m[infoLog].Printf(format, g.pos(args)...)
+	if g.v == 1 {
+		g.m[infoLog].Printf(format, g.pos(args)...)
+	}
 }
 
 func (g *loggerT) Warning(args ...interface{}) {
